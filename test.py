@@ -65,7 +65,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response_get.status_code, 200)
         self.assertIn(b"list of 1541802758 parcels", response_post.data)
 
-    def def test_cancel_parcel(self):
+    def test_cancel_parcel(self):
         tester = app.test_client(self)
         response = tester.put(
             "/parcels/1541802758_0/cancel", content_type="html/text")
