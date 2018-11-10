@@ -33,8 +33,8 @@ All response will have the form
     "status": "Not Delivered"
   },
   "parcelId": {
-    "userId": "userId,"
-    "parcelId": "parcelId,"
+    "userId": "userId",
+    "parcelId": "parcelId",
     "p_from": "Kampala, Uganda",
     "to": "Nairobi, Kenya",
     "weight": "0.5",
