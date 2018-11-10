@@ -15,7 +15,7 @@ All response will have the form
 
 **Definition**
 
-`GET /parcels`
+`GET /api/v1/parcels`
 
 **Responses**
 
@@ -24,8 +24,8 @@ All response will have the form
 ```json
 {
   "parcelId": {
-    "userId": "userId",
-    "parcelId": "parcelId",
+    "userId": "<userId>",
+    "parcelId": "<parcelId>",
     "p_from": "Kampala, Uganda",
     "to": "Kisumu, Kenya",
     "weight": "1.2",
@@ -33,8 +33,8 @@ All response will have the form
     "status": "Not Delivered"
   },
   "parcelId": {
-    "userId": "userId",
-    "parcelId": "parcelId",
+    "userId": "<userId>",
+    "parcelId": "<parcelId>",
     "p_from": "Kampala, Uganda",
     "to": "Nairobi, Kenya",
     "weight": "0.5",
@@ -48,7 +48,7 @@ All response will have the form
 
 **Definitions**
 
-`POST /parcels`
+`POST /api/v1/parcels`
 
 **Arguments**
 
@@ -63,8 +63,8 @@ All response will have the form
 
 ```json
 {
-  "userId": "userId",
-  "parcelId": "parcelId",
+  "userId": "<userId>",
+  "parcelId": "<parcelId>",
   "p_from": "Kampala, Uganda",
   "to": "Kisumu, Kenya",
   "weight": "1.2",
@@ -78,7 +78,7 @@ All response will have the form
 
 **Definitions**
 
-`POST /users`
+`POST /api/v1/users`
 
 **Arguments**
 
@@ -94,7 +94,7 @@ All response will have the form
 
 ```json
 {
-  "userId": "user_id",
+  "userId": "<user_id>",
   "firstname": "firstname",
   "lastname": "lastname",
   "email": "email",
@@ -111,7 +111,7 @@ All response will have the form
 
 **Definition**
 
-`GET /parcels/parcelId`
+`GET /api/v1/parcels/<parcelId>`
 
 **Responses**
 
@@ -121,7 +121,7 @@ All response will have the form
 ```json
 {
   "parcelId": {
-    "userId": "parcelId",
+    "userId": "<parcelId>",
     "parcelId": 15727377,
     "p_from": "Kampala, Uganda",
     "to": "Kisumu, Kenya",
@@ -136,7 +136,7 @@ All response will have the form
 
 **Definition**
 
-`GET /users/<userId>/parcels`
+`GET /api/v1/users/<userId>/parcels`
 
 **Responses**
 
@@ -145,7 +145,7 @@ All response will have the form
 
 ```json
   user: {
-    "userId": "userId",
+    "userId": "<userId>",
     "firstname": "Roghashin",
     "lastname": "Timbiti",
     "email": "rtimbiti@gmail.com",
@@ -158,8 +158,8 @@ All response will have the form
   }
   parcels: {
     "15727377": {
-      "userId": "userId",
-      "parcelId": "parcelId",
+      "userId": "<userId>",
+      "parcelId": "<parcelId>",
       "p_from": "Kampala, Uganda",
       "to": "Kisumu, Kenya",
       "weight": "1.2",
@@ -167,8 +167,8 @@ All response will have the form
       "status": "Not Delivered"
     },
     "15727872": {
-      "userId": "userId",
-      "parcelId": "parcelId",
+      "userId": "<userId>",
+      "parcelId": "<parcelId>",
       "p_from": "Kampala, Uganda",
       "to": "Da res alaam, Tanzania",
       "weight": "0.6",
@@ -182,7 +182,7 @@ All response will have the form
 
 **Definition**
 
-`PUT parcels/<parcelId>/cancel`
+`PUT /api/v1/parcels/<parcelId>/cancel`
 
 **Responses**
 
