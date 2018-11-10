@@ -1,10 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect, url_for
 from data import db
 
 from datetime import datetime
 from time import mktime
 
 app = Flask(__name__)
+
+
+@app.route("/")
+def home():
+    return redirect(url_for("index"))
 
 
 @app.route("/api/v1/")
