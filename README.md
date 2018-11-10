@@ -59,7 +59,7 @@ All response will have the form
 **Responses** 
 
 - `201 Created` on success
-- `404 Not Found` if the device does not exist
+- 
 
 ```json
 {
@@ -116,7 +116,7 @@ All response will have the form
 **Responses**
 
 - `200 OK` on success
-- `404 Not Found` if the device does not exist
+- `404 Not Found` if the parcel does not exist
 
 ```json
 {
@@ -141,7 +141,7 @@ All response will have the form
 **Responses**
 
 - `200 OK` on success
-- `404 Not Found` if the device does not exist
+- `404 Not Found` if the User does not exist
 
 ```json
   user: {
@@ -187,7 +187,7 @@ All response will have the form
 **Responses**
 
 - `204 No Content` on success
-- `404 Not Found` if the device does not exist
+- `404 Not Found` if the parcel does not exist
 
 ```json
   {
