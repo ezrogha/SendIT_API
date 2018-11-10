@@ -6,6 +6,6 @@ install:
   - pip install coveralls
 script:
   - python test.py
-  - coverage run --source=test.py
+  - coverage run test.py
 after_success:
   - coveralls
