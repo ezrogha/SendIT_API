@@ -23,18 +23,18 @@ All response will have the form
 
 ```json
 {
-  parcelId: {
-    "userId": userId,
-    "parcelId": parcelId,
+  "parcelId": {
+    "userId": "userId",
+    "parcelId": "parcelId",
     "p_from": "Kampala, Uganda",
     "to": "Kisumu, Kenya",
     "weight": "1.2",
     "price": "4000",
     "status": "Not Delivered"
   },
-  parcelId: {
-    "userId": userId,
-    "parcelId": parcelId,
+  "parcelId": {
+    "userId": "userId,"
+    "parcelId": "parcelId,"
     "p_from": "Kampala, Uganda",
     "to": "Nairobi, Kenya",
     "weight": "0.5",
@@ -63,8 +63,8 @@ All response will have the form
 
 ```json
 {
-  "userId": userId,
-  "parcelId": parcelId,
+  "userId": "userId",
+  "parcelId": "parcelId",
   "p_from": "Kampala, Uganda",
   "to": "Kisumu, Kenya",
   "weight": "1.2",
@@ -120,8 +120,8 @@ All response will have the form
 
 ```json
 {
-  parcelId: {
-    "userId": parcelId,
+  "parcelId": {
+    "userId": "parcelId",
     "parcelId": 15727377,
     "p_from": "Kampala, Uganda",
     "to": "Kisumu, Kenya",
@@ -145,7 +145,7 @@ All response will have the form
 
 ```json
   user: {
-    "userId": userId,
+    "userId": "userId",
     "firstname": "Roghashin",
     "lastname": "Timbiti",
     "email": "rtimbiti@gmail.com",
@@ -158,8 +158,8 @@ All response will have the form
   }
   parcels: {
     "15727377": {
-      "userId": userId,
-      "parcelId": parcelId,
+      "userId": "userId",
+      "parcelId": "parcelId",
       "p_from": "Kampala, Uganda",
       "to": "Kisumu, Kenya",
       "weight": "1.2",
@@ -167,8 +167,8 @@ All response will have the form
       "status": "Not Delivered"
     },
     "15727872": {
-      "userId": userId,
-      "parcelId": parcelId,
+      "userId": "userId",
+      "parcelId": "parcelId",
       "p_from": "Kampala, Uganda",
       "to": "Da res alaam, Tanzania",
       "weight": "0.6",
