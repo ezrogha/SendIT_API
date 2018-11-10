@@ -1,7 +1,7 @@
 # SendIT API
 
 ## Badges
- [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=master)](https://travis-ci.org/ezrogha/SendIT_API)
+ [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=features)](https://travis-ci.org/ezrogha/SendIT_API)
 ## Heroku
 https://sendit-api-.herokuapp.com/api/v1/
 
