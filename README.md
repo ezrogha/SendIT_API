@@ -2,7 +2,7 @@
 
 ## Badges
  [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=features)](https://travis-ci.org/ezrogha/SendIT_API)
- [![Coverage Status](https://coveralls.io/repos/github/ezrogha/SendIT_API/badge.svg)](https://coveralls.io/github/ezrogha/SendIT_API)
+ [![Coverage Status](https://coveralls.io/repos/github/ezrogha/SendIT_API/badge.svg?branch=features)](https://coveralls.io/github/ezrogha/SendIT_API?branch=features)
 ## Heroku
 https://sendit-api-.herokuapp.com/api/v1/
 
