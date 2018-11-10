@@ -67,7 +67,7 @@ db = {
     "users": {
         "1541802758": {
             "address": "Nsambya",
-            "email": "rtimbi@",
+            "email": "rtimbi@gmail.com",
             "firstname": "Rogha",
             "lastname": "Timbi",
             "password": "null",
@@ -79,7 +79,7 @@ db = {
         },
         "1541803030": {
             "address": "Entebbe",
-            "email": "rorine@",
+            "email": "rorine@gmail.com",
             "firstname": "Roshin",
             "lastname": "Masika",
             "password": "null",
@@ -215,8 +215,8 @@ All response will have the form
 ```json
 {
   "parcelId": {
-    "userId": "<parcelId>",
-    "parcelId": 15727377,
+    "userId": "<userId>",
+    "parcelId": "<parcelId>",
     "p_from": "Kampala, Uganda",
     "to": "Kisumu, Kenya",
     "weight": "1.2",
