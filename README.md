@@ -1,11 +1,103 @@
 # SendIT API
 
+## Badges
+ [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=master)](https://travis-ci.org/ezrogha/SendIT_API)
+## Heroku
+https://sendit-api-.herokuapp.com/api/v1/
+
+## Pivotal Tracker
+https://www.pivotaltracker.com/n/projects/2224545
+
+## Features
+- User can fetch all parcel delivery orders
+- User can view details of a specific order
+- User can create a parcel delivery order
+- User can cancel parcel delivery order
+- User can view all parcel delivery orders from a specific user
+- User can fetch all users
+- User can create a new user
+
+## Sample Data
+```json
+db = {
+    "_response": {
+      "code": "",
+      "message": ""
+    },
+    "parcels": {
+        "1541802758_0": {
+            "from": "Kla",
+            "parcelId": "1541802758_0",
+            "price": "3200",
+            "status": "Not Delivered",
+            "to": "Kigali",
+            "userId": "1541802758",
+            "weight": "1.2"
+        },
+        "1541802758_1": {
+            "from": "Kla",
+            "parcelId": "1541802758_1",
+            "price": "1600",
+            "status": "Not Delivered",
+            "to": "Kisumu",
+            "userId": "1541802758",
+            "weight": "0.7"
+        },
+        "1541802758_2": {
+            "from": "Kla",
+            "parcelId": "1541802758_2",
+            "price": "2200",
+            "status": "Not Delivered",
+            "to": "Da res alaam",
+            "userId": "1541802758",
+            "weight": "0.8"
+        },
+        "1541803030_3": {
+            "from": "Entebbe",
+            "parcelId": "1541803030_3",
+            "price": "40000",
+            "status": "Not Delivered",
+            "to": "New York",
+            "userId": "1541803030",
+            "weight": "0.87"
+        }
+    },
+    "users": {
+        "1541802758": {
+            "address": "Nsambya",
+            "email": "rtimbi@",
+            "firstname": "Rogha",
+            "lastname": "Timbi",
+            "password": "null",
+            "phone": "036489",
+            "received": 0,
+            "sent": 0,
+            "status": "active",
+            "userId": "1541802758"
+        },
+        "1541803030": {
+            "address": "Entebbe",
+            "email": "rorine@",
+            "firstname": "Roshin",
+            "lastname": "Masika",
+            "password": "null",
+            "phone": "043909",
+            "received": 0,
+            "sent": 0,
+            "status": "active",
+            "userId": "1541803030"
+        }
+    }
+}
+```
+
 ## Usage
 
 All response will have the form
 
 ```json
 {
+  "_response": {},
   "users": {},
   "parcels": {}
 }
