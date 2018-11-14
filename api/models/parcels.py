@@ -44,3 +44,8 @@ def set_parcel(parcel_id, parcel_userId, parcel_from, parcel_to, parcel_weight, 
 
 def check_parcel(parcelId):
   return db["parcels"].get(parcelId)
+
+
+def cancel_parcel(parcelId):
+  db["parcels"][parcelId] = {}
+  return jsonify({"204": f"Order {parcelId} has been cancelled"})

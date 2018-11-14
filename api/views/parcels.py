@@ -39,3 +39,12 @@ def parcel(parcelId):
   if not parcel:
     return jsonify({"404": f"The Parcel with this id {parcelId} was not found..."})
   return jsonify(parcel)
+
+
+@app.route("/api/v1/parcels/<string:parcelId>/cancel", methods=["GET", "PUT"])
+def cancelParcel(parcelId):
+  parcel = check_parcel(parcelId)
+  if not parcel:
+    return jsonify({"404": f"Parcel with this id {parcelId} was not found..."})
+  if request.method == "PUT":
+    return cancel_parcel(parcelId)
