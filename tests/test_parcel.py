@@ -9,7 +9,7 @@ class TestParcels(unittest.TestCase):
     message = b"Welcome to SendIT api"
     self.assertTrue(message in response.data)
 
-  def test_get_parcels(self):
+  def test_parcels(self):
     tester = app.test_client()
     response_post = tester.post(
         "/api/v1/parcels",
@@ -26,3 +26,6 @@ class TestParcels(unittest.TestCase):
     self.assertIn(message_post, response_post.data,)
     self.assertEqual(response.status_code, 200)
     self.assertIn(message, response.data)
+
+
+    
