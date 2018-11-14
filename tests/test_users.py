@@ -27,4 +27,18 @@ class TestParcels(unittest.TestCase):
       self.assertTrue(message in response_get.data)
       self.assertTrue(b"Hello Trashin" in response_post.data)
 
-    
+
+def test_get_user_parcels(self):
+    tester = app.test_client(self)
+    response_get = tester.get(
+        "/api/v1/users/1541802758/parcels", content_type="html/text")
+    # response_post = tester.post(
+    #     "/api/v1/users/1541802758/parcels",
+    #     data=dict(
+    #         p_from="Kampala, Uganda",
+    #         to="khartuom, Sudan",
+    #         weight="1.8"
+    #     )
+    # )
+    self.assertIn(b"User with this id 1541802758 was not found...", response_get.data)
+    # self.assertIn(b"A new parcel has been created by user 1541802758", response_post.data)

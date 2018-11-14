@@ -21,3 +21,5 @@ def allUsers():
 
   elif request.method == "GET":
     return jsonify(get_all_users())
+
+

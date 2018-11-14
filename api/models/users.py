@@ -34,3 +34,7 @@ def set_user(firstname, lastname, email, phone, address, password, user_id):
       "users": users
   }
   return users_db
+
+
+# def check_user(userId):
+#   return db["users"].get(userId)
