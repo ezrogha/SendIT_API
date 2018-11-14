@@ -23,3 +23,19 @@ def allUsers():
     return jsonify(get_all_users())
 
 
+@app.route("/api/v1/users/<string:userId>/parcels", methods=["GET", "POST"])
+def userParcels(userId):
+  user = check_user(userId)
+  if not user:
+    return jsonify({"404.html": f"User with this id {userId} was not found..."})
+  if request.method == "POST":
+    parcel_from = request.form.get("p_from")
+    parcel_to = request.form.get("to")
+    parcel_weight = request.form.get("weight")
+    parcel_price = request.form.get("price")
+    parcel_status = "Not Delivered"
+    parcel_id = str(userId) + "_" + str(len(db["parcels"]))
+    return set_user_parcels(parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_id, userId)
+
+  elif request.method == "GET":
+    return get_user_parcels(userId)
