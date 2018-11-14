@@ -39,8 +39,7 @@ class TestParcels(unittest.TestCase):
     tester = app.test_client(self)
     response = tester.put(
         "/api/v1/parcels/1541802758_0/cancel", content_type="html/text")
-    # response2 = tester.put(
-    #     "/api/v1/parcels/444444/cancel", content_type="html/text")
-    # self.assertEqual(response.status_code, 200)
-    # self.assertIn(b"Order 1541802758_0 has been cancelled", response.data)
+    response2 = tester.put(
+        "/api/v1/parcels/444444/cancel", content_type="html/text")
+    self.assertIn(b"Parcel with this id 444444 was not found...", response2.data)
     self.assertIn(b"Parcel with this id 1541802758_0 was not found...", response.data)
