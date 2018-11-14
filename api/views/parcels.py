@@ -31,3 +31,11 @@ def allParcels():
 
   elif request.method == "GET":
     return jsonify(get_all_parcels())
+
+
+@app.route("/api/v1/parcels/<string:parcelId>")
+def parcel(parcelId):
+  parcel = check_parcel(parcelId)
+  if not parcel:
+    return jsonify({"404": f"The Parcel with this id {parcelId} was not found..."})
+  return jsonify(parcel)

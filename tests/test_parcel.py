@@ -28,4 +28,8 @@ class TestParcels(unittest.TestCase):
     self.assertIn(message, response.data)
 
 
-    
+  def test_get_parcel(self):
+    tester = app.test_client(self)
+    response = tester.get(
+        "/api/v1/parcels/1541802758_0", content_type="html/text")
+    self.assertIn(b"The Parcel with this id 1541802758_0 was not found...", response.data)

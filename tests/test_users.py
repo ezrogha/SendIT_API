@@ -27,9 +27,4 @@ class TestParcels(unittest.TestCase):
       self.assertTrue(message in response_get.data)
       self.assertTrue(b"Hello Trashin" in response_post.data)
 
-
-def test_get_parcel(self):
-    tester = app.test_client(self)
-    response = tester.get(
-        "/api/v1/parcels/1541802758_0", content_type="html/text")
-    self.assertIn(b"Parcel with this id 1541802758_0 doesn't exist", response.data)
+    

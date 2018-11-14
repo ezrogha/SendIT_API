@@ -40,3 +40,7 @@ def set_parcel(parcel_id, parcel_userId, parcel_from, parcel_to, parcel_weight, 
       "parcels": parcels
   }
   return parcels_db
+
+
+def check_parcel(parcelId):
+  return db["parcels"].get(parcelId)
