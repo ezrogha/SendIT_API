@@ -6,7 +6,6 @@ install:
   - pip install coveralls
 script:
   - pytest
-  - coverage run run.py
 after_success:
   - coveralls
 
