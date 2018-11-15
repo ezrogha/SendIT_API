@@ -10,7 +10,7 @@ class TestParcels(unittest.TestCase):
       dt = datetime.now()
       user_id = str(int(mktime(dt.timetuple())))
       tester = app.test_client()
-      response_get = tester.get("/api/v1/users", content_type="html/text")
+      response_get = tester.get("/api/v1/users", content_type="application/json")
       response_post = tester.post(
           "/api/v1/users",
           data=dict(
@@ -32,7 +32,7 @@ class TestParcels(unittest.TestCase):
   def test_get_user_parcels(self):
     tester = app.test_client()
     response_get = tester.get(
-        "/api/v1/users/1541802758/parcels", content_type="html/text")
+        "/api/v1/users/1541802758/parcels", content_type="application/json")
     response_post = tester.post(
         "/api/v1/users/154180555/parcels",
         data=dict(
