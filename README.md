@@ -2,7 +2,6 @@
 
 ## Badges
  [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=features)](https://travis-ci.org/ezrogha/SendIT_API)
- [![Coverage Status](https://coveralls.io/repos/github/ezrogha/SendIT_API/badge.svg?branch=features)](https://coveralls.io/github/ezrogha/SendIT_API?branch=features)
  [![Maintainability](https://api.codeclimate.com/v1/badges/39caaa1fe94e4554a26c/maintainability)](https://codeclimate.com/github/ezrogha/SendIT_API/maintainability)
 
 ## Heroku
