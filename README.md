@@ -1,6 +1,6 @@
 # SendIT_API
 
-A endpoints required by the SendIT app.
+SendIT_API is a courier service api that helps users create, view, cancel and send parcel delivery orders to different destinations. SendIT provides courier quotes based on weight categories.
 
 ### Badges
  [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=feature)](https://travis-ci.org/ezrogha/SendIT_API)
