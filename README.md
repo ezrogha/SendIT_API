@@ -173,11 +173,11 @@ python run.py
 ```
 
 ## Deployment
-1. [Heroku](https://sendit-api-.herokuapp.com)
+- [Heroku](https://sendit-api-.herokuapp.com)
 
 ## Technologies
-1. [Python](https://www.python.org/)
-2. [Flask](http://flask.pocoo.org/)
+- [Python](https://www.python.org/)
+- [Flask](http://flask.pocoo.org/)
 
 ## Acknoledgements
-1. [Andela](https://andela.com/)
+- [Andela](https://andela.com/)
