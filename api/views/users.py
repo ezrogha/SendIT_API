@@ -10,11 +10,19 @@ from time import mktime
 def allUsers():
   if request.method == "POST":
     firstname = request.form.get("firstname")
+    if not firstname:
+      return jsonify({ "message": "Please add your firstname" })
     lastname = request.form.get("lastname")
+    if not lastname:
+      return jsonify({ "message": "Please add your lastname" })
     email = request.form.get("email")
     phone = request.form.get("phone")
     address = request.form.get("address")
+    if not address:
+      return jsonify({ "message": "Please add your address" })
     password = request.form.get("password")
+    if not password:
+      return jsonify({ "message": "Please add a password" })
     dt = datetime.now()
     user_id = str(int(mktime(dt.timetuple()))) 
     return jsonify(set_user(firstname, lastname, email, phone, address, password, user_id))
@@ -35,7 +43,7 @@ def userParcels(userId):
     parcel_price = request.form.get("price")
     parcel_status = "Not Delivered"
     parcel_id = str(userId) + "_" + str(len(db["parcels"]))
-    return set_user_parcels(parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_id, userId)
+    return jsonify(set_user_parcels(parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_id, userId))
 
   elif request.method == "GET":
-    return get_user_parcels(userId)
+    return jsonify(get_user_parcels(userId))
