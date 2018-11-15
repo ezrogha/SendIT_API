@@ -22,8 +22,14 @@ def allParcels():
     if parcel_userId not in list(db["users"]):
         return jsonify({"404": f"User with {parcel_userId} not defined"})
     parcel_from = request.form.get("p_from")
+    if not parcel_from:
+        return jsonify({ "message": "Please add a source" })
     parcel_to = request.form.get("to")
+    if not parcel_to:
+        return jsonify({ "message": "Please add a destination" })
     parcel_weight = request.form.get("weight")
+    if not parcel_weight:
+        return jsonify({ "message": "Please add a weight" })
     parcel_price = request.form.get("price")
     parcel_status = "Not Delivered"
     parcel_id = str(parcel_userId) + "_" + str(len(db["parcels"]))
@@ -47,4 +53,4 @@ def cancelParcel(parcelId):
   if not parcel:
     return jsonify({"404": f"Parcel with this id {parcelId} was not found..."})
   if request.method == "PUT":
-    return cancel_parcel(parcelId)
+    return jsonify(cancel_parcel(parcelId))

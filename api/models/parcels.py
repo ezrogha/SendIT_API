@@ -12,11 +12,21 @@ def home_model():
 def get_all_parcels():
   if(db["parcels"] == {}):
     db["_response"] = {
-      "code": 200,
+      "code": 404,
       "message": "No Parcels currently available"
     }
     return db["_response"]
-  return db["parcels"]
+  db["_response"] = {
+    "code": 200,
+    "message": "All Parcels"
+  }
+  parcels = db["parcels"]
+  message = db["_response"]
+  parcels_db = {
+    "_response": message,
+    "parcels": parcels
+  }
+  return parcels_db
 
 
 def set_parcel(parcel_id, parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status):
@@ -30,7 +40,7 @@ def set_parcel(parcel_id, parcel_userId, parcel_from, parcel_to, parcel_weight, 
       "status": parcel_status
   }
   db["_response"] = {
-      "code": "201",
+      "code": 201,
       "message": f"A parcel is created by user {parcel_userId}"
   }
   parcels = db["parcels"]
@@ -48,4 +58,4 @@ def check_parcel(parcelId):
 
 def cancel_parcel(parcelId):
   db["parcels"][parcelId] = {}
-  return jsonify({"204": f"Order {parcelId} has been cancelled"})
+  return {204: f"Order {parcelId} has been cancelled"}
