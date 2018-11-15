@@ -40,7 +40,7 @@ python run.py
 | GET /api/v1/users/<userId>/parcels   | Fetch orders from a specific user|
 | POST /api/v1/users/<userId>/parcels  | Create parcel delivery order     |
  
-### Usage
+## Usage
 
 ### Fetch all orders
 
@@ -173,11 +173,11 @@ python run.py
 ```
 
 ## Deployment
-..* [Heroku](https://sendit-api-.herokuapp.com)
+1. [Heroku](https://sendit-api-.herokuapp.com)
 
 ## Technologies
-..* [Python](https://www.python.org/)
-..* [Flask](http://flask.pocoo.org/)
+1. [Python](https://www.python.org/)
+2. [Flask](http://flask.pocoo.org/)
 
 ## Acknoledgements
-..* [Andela](https://andela.com/)
+1. [Andela](https://andela.com/)
