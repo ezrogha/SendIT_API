@@ -76,7 +76,7 @@ python run.py
 
 - `"p_from: string"` Parcel's Source
 - `"To: string"` Parcel's Destination
-- `"weight: string"` Parcel's weight
+- `"weight: int"` Parcel's weight
 
 **Responses** 
 
