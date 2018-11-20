@@ -17,7 +17,7 @@ def allParcels():
 
         parcel_userId = content.get("userId")
         if parcel_userId not in list(db["users"]):
-            return jsonify({"message": f"User with {parcel_userId} not defined"}), 200
+            return jsonify({"message": f"User with {parcel_userId} not defined"}), 404
 
         parcel_from = content.get("p_from")
         if not parcel_from:
