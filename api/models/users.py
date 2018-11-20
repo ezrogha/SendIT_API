@@ -4,13 +4,11 @@ from api.models.data import db
 def get_all_users():
     if(db["users"] == {}):
         db["_response"] = {
-            "code": 404,
             "message": "No Users currently available"
         }
         return db["_response"]
     db["_response"] = {
-        "message": "All Users",
-        "code": 200
+        "message": "All Users"
     }
     users = db["users"]
     response = db["_response"]
@@ -35,7 +33,6 @@ def set_user(firstname, lastname, email, phone, address, password, user_id):
         "status": "active"
     }
     db["_response"] = {
-        "code": 201,
         "message": f"Hello {firstname}, your account was created successfully"
     }
     users = db["users"]
@@ -72,7 +69,6 @@ def set_user_parcels(parcel_from, parcel_to, parcel_weight, parcel_price, parcel
     userdb["parcels"] = user_parcels
     userparcels = userdb["parcels"]
     db["_response"] = {
-        "code": 201,
         "message": f"A new parcel has been created by user {userId}"
     }
     message = db["_response"]
@@ -94,7 +90,6 @@ def get_user_parcels(userId):
     userdb["parcels"] = user_parcels
     userparcels = userdb["parcels"]
     db["_response"] = {
-        "code": 200,
         "message": f"list of all parcels of user {userId}"
     }
     message = db["_response"]
