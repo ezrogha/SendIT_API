@@ -60,7 +60,7 @@ def parcel(parcelId):
     return jsonify(parcel)
 
 
-@app.route("/api/v1/parcels/<string:parcelId>/cancel", methods=["GET", "PUT"])
+@app.route("/api/v1/parcels/<string:parcelId>/cancel", methods=["PUT"])
 def cancelParcel(parcelId):
     parcel = check_parcel(parcelId)
     if not parcel:
