@@ -33,6 +33,8 @@ class TestParcels(unittest.TestCase):
             ))
         )
         self.assertTrue(b"Hello Trashin" in response_post.data)
+        self.assertEqual(response_post.status_code, 201)
+        
 
     def test_get_user_parcels(self):
         tester = app.test_client()
@@ -40,6 +42,7 @@ class TestParcels(unittest.TestCase):
             "/api/v1/users/1541802758/parcels", content_type="application/json")
         self.assertIn(
             b"User with this id 1541802758 was not found...", response_get.data)
+        self.assertEqual(response_get.status_code, 404)
 
     def test_set_user_parcels(self):
         tester = app.test_client()
@@ -54,3 +57,4 @@ class TestParcels(unittest.TestCase):
         )
         self.assertIn(
             b"User with this id 1234567 was not found...", response_post.data)
+        self.assertEqual(response_post.status_code, 404)
