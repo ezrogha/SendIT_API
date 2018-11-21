@@ -11,8 +11,8 @@ class DBConnection(object):
             self.cursor = self.connection.cursor()
 
             print('Database connected.')
-            create_user_table = "CREATE TABLE IF NOT EXISTS users (userId SERIAL NOT NULL PRIMARY KEY, username TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, password TEXT NOT NULL);"
-            create_parcels_table = "CREATE TABLE IF NOT EXISTS parcels (parcelId SERIAL NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, p_from TEXT NOT NULL, to TEXT NOT NULL, weight INTEGER NOT NULL, price INTEGER NOT NULL, status TEXT NOT NULL);"
+            create_user_table = "CREATE TABLE IF NOT EXISTS users (userId SERIAL NOT NULL PRIMARY KEY, username TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, password TEXT NOT NULL, role TEXT NOT NULL);"
+            create_parcels_table = "CREATE TABLE IF NOT EXISTS parcels (parcelId SERIAL NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, p_from TEXT NOT NULL, to TEXT NOT NULL, weight INTEGER NOT NULL, price INTEGER NOT NULL, status TEXT NOT NULL, location TEXT NOT NULL);"
             
             self.cursor.execute(create_user_table)
             self.cursor.execute(create_parcels_table)
@@ -21,15 +21,22 @@ class DBConnection(object):
             print("Cannot connect to the database")
 
 
-    def add_user(self, username, email, phone, address, password):
+    def add_user(self, username, email, phone, address, password, role):
         check_user = f"SELECT * FROM users WHERE username='{username}'"
         self.cursor.execute(check_user)
         if self.cursor.rowcount > 0:
             return "Already exists"
-        query = f"INSERT INTO users (username, email, phone, address, password) VALUES ('{username}', '{email}', '{phone}', '{address}', '{password}')"
+        query = f"INSERT INTO users (username, email, phone, address, password, role) VALUES ('{username}', '{email}', '{phone}', '{address}', '{password}', '{role}')"
         self.cursor.execute(query)
         return "Account created"
     
+
+    def all_users(self):
+        query = "SELECT * FROM users"
+        self.cursor.execute(query)
+        users = self.cursor.fetchAll()
+        return users
+
     
     def login_user(self, username, password):
         query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
@@ -40,8 +47,8 @@ class DBConnection(object):
         return user
 
     
-    def add_parcel(self, userId, p_from, to, weight, price, status):
-        query = f"INSERT INTO users (userId, p_from, to, weight, price, status) VALUES ({userId}, '{p_from}', '{to}', '{weight}', '{price}', '{status}')"
+    def add_parcel(self, userId, p_from, to, weight, price, status, location):
+        query = f"INSERT INTO users (userId, p_from, to, weight, price, status, location) VALUES ({userId}, '{p_from}', '{to}', '{weight}', '{price}', '{status}', '{location}')"
         self.cursor.execute(query)
 
     
@@ -88,6 +95,15 @@ class DBConnection(object):
             return None
         change_status_query = f"UPDATE parcels SET status={new_status} WHERE parcelId = {parcelId}"
         self.cursor.execute(change_status_query)
+
+
+    def parcel_details(self, parcelid):
+        check_parcel = f"SELECT * FROM parcels WHERE parcelId={parcelId}"
+        self.cursor.execute(check_parcel)
+        if self.cursor.rowcount > 0:
+            result = self.cursor.fetchone()
+            return result  
+        return None
 
 
     def delete_tables(self):
