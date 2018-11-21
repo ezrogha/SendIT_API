@@ -1,5 +1,5 @@
 import psycopg2
-from pprint import pprint
+from print import pprint
 
 class DBConnection(object):
     def __init__(self):
