@@ -38,7 +38,7 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(response_get.status_code, 200)
         self.assertTrue(b"Please Register" in response_get.data)
         self.assertEqual(response_post.status_code, 201)
-        self.assertTrue(b"Account has been created" in response_post.data)
+        self.assertEqual(b"Account has been created", response_post.data)
 
 
     def test_login(self):
