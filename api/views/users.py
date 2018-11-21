@@ -15,7 +15,10 @@ def signup():
         email = content.get("email")
         phone = content.get("phone")
         address = content.get("address")
-        return jsonify(setUser(username, email, phone, address, password))
+        response = setUser(username, email, phone, address, password)
+        if response == {"message": "username already exists"}:
+            return(jsonify(response), 200)
+        return(jsonify(response), 201)
     return jsonify({"message": "Please Register"}), 200
 
 
