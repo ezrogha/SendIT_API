@@ -22,12 +22,17 @@ class DBConnection(object):
 
 
     def add_user(self, username, email, phone, address, password):
-        query = "INSERT INTO users (username, email, phone, address, password) VALUES ('{}', '{}', '{}', '{}', '{}')".format(username, email, phone, address, password)
+        check_user = f"SELECT * FROM users WHERE username='{username}'"
+        self.cursor.execute(check_user)
+        if self.cursor.rowcount > 0:
+            return "Already exists"
+        query = f"INSERT INTO users (username, email, phone, address, password) VALUES ('{username}', '{email}', '{phone}', '{address}', '{password}')"
         self.cursor.execute(query)
+        return "Account created"
     
     
     def login_user(self, username, password):
-        query = "SELECT * FROM users WHERE username='{}' AND password='{}'".format(username, password)
+        query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
         self.cursor.execute(query)
         if self.cursor.rowcount < 1:
             return None
@@ -36,16 +41,16 @@ class DBConnection(object):
 
     
     def add_parcel(self, userId, p_from, to, weight, price, status):
-        query = "INSERT INTO users (userId, p_from, to, weight, price, status) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(userId, p_from, to, weight, price, status)
+        query = f"INSERT INTO users (userId, p_from, to, weight, price, status) VALUES ({userId}, '{p_from}', '{to}', '{weight}', '{price}', '{status}')"
         self.cursor.execute(query)
 
     
     def delete_parcel(self, parcelId):
-        sel_query = "SELECT * FROM parcels WHERE parcelId = {parcelId}"
+        sel_query = f"SELECT * FROM parcels WHERE parcelId = {parcelId}"
         self.cursor.execute(sel_query)
         if self.cursor.rowcount < 1:
             return None
-        del_query = "DELETE FROM parcels WHERE parcelId = {parcelId}".format(parcelId)
+        del_query = f"DELETE FROM parcels WHERE parcelId = {parcelId}"
         self.cursor.execute(sel_query)      
 
     
@@ -57,31 +62,31 @@ class DBConnection(object):
 
 
     def view_user_parcels(self, userId):
-        check_user_query = "SELECT * FROM users WHERE userId = {userId}".format(userId)
+        check_user_query = f"SELECT * FROM users WHERE userId = {userId}"
         self.cursor.execute(check_user_query)
         if self.cursor.rowcount < 1:
             return None
-        parcels_query = "SELECT * FROM parcels WHERE userId = {userId}".format(userId)
+        parcels_query = f"SELECT * FROM parcels WHERE userId = {userId}"
         self.cursor.execute(user_parcels)
         user_parcels = self.cursor.fetchall()
         return user_parcels
 
 
     def change_desitination(self, parcelId, new_destination):
-        check_parcel = "SELECT * FROM parcels WHERE parcelId = {parcelId}"
+        check_parcel = f"SELECT * FROM parcels WHERE parcelId = {parcelId}"
         self.cursor.execute(check_parcel)
         if self.cursor.rowcount < 1:
             return None
-        change_dest_query = "UPDATE parcels SET to={} WHERE parcelId = {}".format(new_destination, parcelId)
+        change_dest_query = f"UPDATE parcels SET to={new_destination} WHERE parcelId = {parcelId}"
         self.cursor.execute(change_dest_query)
 
 
     def change_status(self, parcelId, new_status):
-        check_parcel = "SELECT * FROM parcels WHERE parcelId = {parcelId}"
+        check_parcel = f"SELECT * FROM parcels WHERE parcelId = {parcelId}"
         self.cursor.execute(check_parcel)
         if self.cursor.rowcount < 1:
             return None
-        change_status_query = "UPDATE parcels SET status={} WHERE parcelId = {}".format(new_status, parcelId)
+        change_status_query = f"UPDATE parcels SET status={new_status} WHERE parcelId = {parcelId}"
         self.cursor.execute(change_status_query)
 
 
