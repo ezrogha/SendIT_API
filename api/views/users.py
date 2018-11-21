@@ -83,3 +83,27 @@ def allUsers():
     if request.method == "GET":
         return jsonify(fetchAllUsers()), 200
     return jsonify({"message": "Method Not Allowed"}), 405
+
+
+@app.route("/api/v2/parcels", methods=["GET", "POST"])
+@jwt_required
+def allParcels():
+    pass
+
+
+@app.route("/api/v1/parcels/<int:parcelId>")
+@jwt_required
+def parcel(parcelId):
+    pass
+
+
+@app.route("/api/v1/parcels/<int:parcelId>/cancel", methods=["PUT"])
+@jwt_required
+def cancelParcel(parcelId):
+    pass
+
+
+@app.route('/api/v2/parcels/<int:parcelId>/destination', methods=["PUT"])
+@jwt_required
+def change_destination():
+   pass
