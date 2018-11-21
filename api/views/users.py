@@ -1,7 +1,10 @@
 from flask import request, jsonify
 from run import app
 from api.models.users import *
+import jwt
+import datetime
 
+app.config["MY_SECRET_KEY"] = "sweetlordJesus"
 
 @app.route("/api/v2/signup", methods=["GET","POST"])
 def signup():
@@ -12,7 +15,7 @@ def signup():
         email = content.get("email")
         phone = content.get("phone")
         address = content.get("address")
-        return jsonify(setUser(username, email, phone, address, password)), 201
+        return jsonify(setUser(username, email, phone, address, password))
     return jsonify({"message": "Please Register"}), 200
 
 
@@ -22,19 +25,23 @@ def login():
         content = request.json
         username = content.get("username")
         password = content.get("password")
-        return jsonify(loginUser(username, password)), 200
+        result = loginUser(username, password)
+        if type(result) == {"message": f"Welcome {username}"}:
+            token = jwt.encode({ "user": "username", "role": "user", "exp": datetime.date.utcnow() + datetime.timedelta(minutes=40)}, app.config["MY_SECRET_KEY"])
+            return jsonify(result)
+        return jsonify(result)
     return jsonify({"message": "Please Login"}), 200
 
    
-@app.route("/api/v1/users/<string:userId>/parcels", methods=["GET", "POST"])
+@app.route("/api/v1/users/<string:userId>/parcels", methods=["GET"])
 def userParcels(userId):
-    pass
+    if request.method == "GET":
+        return jsonify(SpecificUserparcels()), 200
+    return jsonify({"message": "Method Not Allowed"}), 405
 
 
-@app.route("/api/v1/users", methods=["GET", "POST"])
+@app.route("/api/v1/users", methods=["POST"])
 def allUsers():
     pass
-
-
 
 
