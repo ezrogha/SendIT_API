@@ -1,6 +1,6 @@
 # SendIT_API
 
-A endpoints required by the SendIT app.
+Endpoints required by the SendIT api.
 
 ### Endpoints include:
 - Create a parcel delivery order
