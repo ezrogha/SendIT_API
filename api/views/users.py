@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect, url_for
 from run import app
 from api.models.users import *
 from api.models.parcels import *
@@ -15,8 +15,13 @@ from validate_email import validate_email
 app.config["JWT_SECRET_KEY"] = "sweetlordJesus"
 jwt = JWTManager(app)
 
-@app.route("/api/v2/")
+
+@app.route("/")
 def index():
+    return redirect(url_for("home"))
+
+@app.route("/api/v2/")
+def home():
     return "Welcome to SendIT"
 
 @app.route("/api/v2/signup", methods=["GET", "POST"])
