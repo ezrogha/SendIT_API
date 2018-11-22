@@ -70,18 +70,18 @@ def login():
 
         result = loginUser(username, password)
         if result == {"message": "User doesnot exist"}:
-            return result
+            return jsonify(result)
         access_token = create_access_token(identity=result)
         return jsonify(access_token=access_token), 200
-        
+
     return jsonify({"message": "Please Login"}), 200
 
 
-@app.route("/api/v2/users/<string:userId>/parcels", methods=["GET"])
+@app.route("/api/v2/users/<int:userId>/parcels", methods=["GET"])
 @jwt_required
 def userParcels(userId):
     if request.method == "GET":
-        return jsonify(SpecificUserparcels()), 200
+        return jsonify(specificUserparcels(userId)), 200
     return jsonify({"message": "Method Not Allowed"}), 405
 
 
@@ -99,42 +99,42 @@ def allUsers():
 @app.route("/api/v2/parcels", methods=["GET", "POST"])
 @jwt_required
 def allParcels():
+    if request.method == "POST":
+        content = request.json
+
+        parcel_userId = content.get("userId")
+        if not parcel_userId:
+            return jsonify({"message": "UserId not defined"}), 400
+
+        parcel_from = content.get("p_from")
+        if not parcel_from:
+            return jsonify({"message": "Please add a source"}), 400
+
+        parcel_to = content.get("to")
+        if not parcel_to:
+            return jsonify({"message": "Please add a destination"}), 400
+
+        parcel_weight = content.get("weight")
+        if not parcel_weight:
+            return jsonify({"message": "Please add a weight"}), 400
+        elif type(parcel_weight) is not int:
+            return jsonify({"message": "Please enter a valid weight"}), 400
+
+        parcel_price = content.get("price")
+        if not parcel_price:
+            return jsonify({"message": "Please add a price"}), 400
+        elif type(parcel_price) is not int:
+            return jsonify({"message": "Please enter a valid price"}), 400
+
+        parcel_status = "Not Delivered"
+
+        parcel_location = ""
+
+        return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location)), 201
+
     current_user = get_jwt_identity()
     if current_user["role"] == "admin":
-        if request.method == "POST":
-            content = request.json
-
-            parcel_userId = content.get("userId")
-            if not parcel_userId:
-                return jsonify({"message": "UserId not defined"}), 400
-
-            parcel_from = content.get("p_from")
-            if not parcel_from:
-                return jsonify({"message": "Please add a source"}), 400
-
-            parcel_to = content.get("to")
-            if not parcel_to:
-                return jsonify({"message": "Please add a destination"}), 400
-
-            parcel_weight = content.get("weight")
-            if not parcel_weight:
-                return jsonify({"message": "Please add a weight"}), 400
-            elif type(parcel_weight) is not int:
-                return jsonify({"message": "Please enter a valid weight"}), 400
-
-            parcel_price = content.get("price")
-            if not parcel_price:
-                return jsonify({"message": "Please add a price"}), 400
-            elif type(parcel_price) is not int:
-                return jsonify({"message": "Please enter a valid price"}), 400
-
-            parcel_status = "Not Delivered"
-
-            parcel_location = ""
-            
-            return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location)), 201
-
-        elif request.method == "GET":
+        if request.method == "GET":
             return jsonify(viewAllParcels()), 200
     return jsonify({"message": "Please login as admin to access data"}), 401
 
