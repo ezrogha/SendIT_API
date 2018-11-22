@@ -70,7 +70,7 @@ def login():
 
         result = loginUser(username, password)
         if result == {"message": "User doesnot exist"}:
-            return result
+            return jsonify(result)
         access_token = create_access_token(identity=result)
         return jsonify(access_token=access_token), 200
         
