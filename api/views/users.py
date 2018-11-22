@@ -15,6 +15,9 @@ from validate_email import validate_email
 app.config["JWT_SECRET_KEY"] = "sweetlordJesus"
 jwt = JWTManager(app)
 
+@app.route("/")
+def index():
+    return "Welcome to SendIT"
 
 @app.route("/api/v2/signup", methods=["GET", "POST"])
 def signup():
