@@ -2,6 +2,7 @@ from flask import request, jsonify
 from run import app
 from api.models.users import *
 from api.models.parcels import *
+import re
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -36,10 +37,14 @@ def signup():
         phone = content.get("phone")
         if not phone:
             return jsonify({"message": "Please enter a phone number"}), 400
+        elif validateNumString(phone):
+                return validateNumString(phone)
 
         address = content.get("address")
         if not address:
             return jsonify({"message": "Please enter an address"}), 400
+        elif type(validateString(address)) != str:
+                return validateString(address)
 
         role = content.get("role")
         if not role:
@@ -204,3 +209,16 @@ def changeStatus(parcelId):
             return jsonify(changeParcelStatus(parcelId, status)), 200
         return jsonify({"message": "Method Not Allowed"}), 405
     return jsonify({"message": "Please login as admin to access data"}), 401    
+
+
+def validateNumString(number):
+    if any(i.isalpha() for i in number):
+        return jsonify({"message": "Please enter a valid phone number"}), 400
+
+def validateString(name):
+    if any(i.isdigit() for i in name):
+        return jsonify({"message": "Please enter a valid name, there should be no numbers"})
+    regex = re.compile("[@_!#$%^&*()<>?/\|}{~:;]")
+    if regex.search(name) != None:
+        return jsonify({"message": "Please enter a valid name, there should be no special characters"})
+    return name
