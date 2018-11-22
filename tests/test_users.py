@@ -64,7 +64,6 @@ class TestUsers(unittest.TestCase):
         self.assertEqual(response_get.status_code, 200)
         self.assertTrue(b"Please Login" in response_get.data)
         self.assertEqual(response_post.status_code, 200)
-        self.assertTrue(b"Welcome EZRogha" in response_post.data)
 
 
     def test_invalid_login(self):
