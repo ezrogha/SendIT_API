@@ -74,7 +74,7 @@ class DBConnection(object):
         if self.cursor.rowcount < 1:
             return None
         parcels_query = f"SELECT * FROM parcels WHERE userId = {userId}"
-        self.cursor.execute(user_parcels)
+        self.cursor.execute(parcels_query)
         user_parcels = self.cursor.fetchall()
         return user_parcels
 
