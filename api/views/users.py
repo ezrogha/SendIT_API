@@ -10,7 +10,7 @@ from flask_jwt_extended import (
 )
 import datetime
 from validate_email import validate_email
-
+import datetime
 
 app.config["JWT_SECRET_KEY"] = "sweetlordJesus"
 jwt = JWTManager(app)
@@ -28,27 +28,29 @@ def home():
 def signup():
     if request.method == "POST":
         content = request.json
-        username = content.get("username")
+        username = content.get("username").strip()
         if not username:
             return jsonify({"message": "Please add a username"}), 400
+        elif type(validateString(username)) != str:
+                return validateString(username)
 
-        password = content.get("password")
+        password = content.get("password").strip()
         if not password:
             return jsonify({"message": "Please add a password"}), 400
 
-        email = content.get("email")
+        email = content.get("email").strip()
         if not email:
             return jsonify({"message": "Please add an email"}), 400
-        elif not validate_email(email):
-            return jsonify({"message": "Please enter a valid Email"})
+        elif validateEmail(email):
+            return validateEmail(email)
 
-        phone = content.get("phone")
+        phone = content.get("phone").strip()
         if not phone:
             return jsonify({"message": "Please enter a phone number"}), 400
         elif validateNumString(phone):
-                return validateNumString(phone)
+            return validateNumString(phone)
 
-        address = content.get("address")
+        address = content.get("address").strip()
         if not address:
             return jsonify({"message": "Please enter an address"}), 400
         elif type(validateString(address)) != str:
@@ -59,31 +61,28 @@ def signup():
             role = "user"
 
         response = setUser(username, email, phone, address, password, role)
-        if response == {"message": "username already exists"}:
-            return jsonify(response), 200
+        if response == {"message": "username or email already used"}:
+            return jsonify(response), 409
         return jsonify(response), 201
     return jsonify({"message": "Please Register"}), 200
 
 
 @app.route("/api/v2/login", methods=["GET", "POST"])
 def login():
-    current_user = get_jwt_identity()
-    if current_user:
-        return jsonify({"message": f"{current_user} already logged in"})
-
+    
     if request.method == "POST":
         content = request.json
-        username = content.get("username")
+        username = content.get("username").strip()
         if not username:
             return jsonify({"message": "Please provide a username"}), 400
 
-        password = content.get("password")
+        password = content.get("password").strip()
         if not password:
             return jsonify({"message": "Please provide a password"}), 400
 
         result = loginUser(username, password)
         if result == {"message": "User doesnot exist"}:
-            return jsonify(result)
+            return jsonify(result), 400
         access_token = create_access_token(identity=result)
         return jsonify(access_token=access_token), 200
 
@@ -94,7 +93,10 @@ def login():
 @jwt_required
 def userParcels(userId):
     if request.method == "GET":
-        return jsonify(specificUserparcels(userId)), 200
+        result = specificUserparcels(userId)
+        if result == {"message": "User doesnot exist"}:
+            return jsonify(result), 400
+        return jsonify(result), 200
     return jsonify({"message": "Method Not Allowed"}), 405
 
 
@@ -119,11 +121,11 @@ def allParcels():
         if not parcel_userId:
             return jsonify({"message": "UserId not defined"}), 400
 
-        parcel_from = content.get("p_from")
+        parcel_from = content.get("source")
         if not parcel_from:
             return jsonify({"message": "Please add a source"}), 400
 
-        parcel_to = content.get("to")
+        parcel_to = content.get("destination")
         if not parcel_to:
             return jsonify({"message": "Please add a destination"}), 400
 
@@ -143,7 +145,10 @@ def allParcels():
 
         parcel_location = ""
 
-        return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location)), 201
+        now = datetime.datetime.now()
+        parcel_creation_date = str(now.strftime("%Y-%m-%d %H:%M"))
+
+        return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date)), 201
 
     current_user = get_jwt_identity()
     if current_user["role"] == "admin":
@@ -169,6 +174,8 @@ def cancelParcel(parcelId):
     userId = current_user["userid"]
     if request.method == "PUT":
         result = cancelParcelOrder(parcelId, userId)
+        if result == {"message": "OrderId does not exist"}:
+            return jsonify(result), 404
         return jsonify(result), 200
     return jsonify({"message": "Method Not Allowed"}), 405
 
@@ -180,6 +187,8 @@ def sendParcel(parcelId):
     userId = current_user["userid"]
     if request.method == "PUT":
         result = sendParcelOrder(parcelId, userId)
+        if result == {"message": "OrderId does not exist"}:
+            return jsonify(result), 404
         return jsonify(result), 200
     return jsonify({"message": "Method Not Allowed"}), 405
     
@@ -191,7 +200,10 @@ def changeDestination(parcelId):
         current_User = get_jwt_identity()
         userId = current_User["userid"]
         destination = request.json.get("destination")
-        return jsonify(changeParcelDestination(parcelId, userId, destination)), 200
+        response = changeParcelDestination(parcelId, userId, destination)
+        if response == {"message": "OrderId does not exist"}:
+            return jsonify(response), 404
+        return jsonify(response), 200
     return jsonify({"message": "Method Not Allowed"}), 405
 
 
@@ -201,10 +213,10 @@ def changeLocation(parcelId):
     current_user = get_jwt_identity()
     if current_user["role"] == "admin":
         if request.method == "PUT":
-            location = request.json.get("location")
+            location = request.json.get("current_location")
             return jsonify(changeParcelLocation(parcelId, location)), 200
         return jsonify({"message": "Method Not Allowed"}), 405
-    return jsonify({"message": "Please login as admin to access data"}), 401    
+    return jsonify({"message": "Please login as admin to make alteration"}), 401    
 
 
 @app.route('/api/v2/parcels/<int:parcelId>/status', methods=["PUT"])
@@ -225,8 +237,13 @@ def validateNumString(number):
 
 def validateString(name):
     if any(i.isdigit() for i in name):
-        return jsonify({"message": "Please enter a valid name, there should be no numbers"})
+        return jsonify({"message": "Please enter a valid name, there should be no numbers"}), 400
     regex = re.compile("[@_!#$%^&*()<>?/\|}{~:;]")
     if regex.search(name) != None:
-        return jsonify({"message": "Please enter a valid name, there should be no special characters"})
+        return jsonify({"message": "Please enter a valid name, there should be no special characters"}), 400
     return name
+
+def validateEmail(email):
+    match = re.search(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b', email, re.I)
+    if not match:
+        return jsonify({"message": "Please enter a valid email"}), 400
