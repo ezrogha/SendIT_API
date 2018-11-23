@@ -17,14 +17,33 @@ test_admin_register_data = {
 
 test_create_parcel = {
     "userId": 1,
-    "p_from": "Kampala",
-    "to": "Mbarara",
+    "source": "Kampala",
+    "destination": "Mbarara",
     "weight": 3,
     "price": 2300,
 }
 
 username_signup = {
     "username": "",
+    "password": "22222",
+    "email": "rt@gmail.com",
+    "phone": "07687888",
+    "address": "Ntinda",
+    "role": "admin"
+}
+
+username_login = {
+    "username": "",
+    "password": "22222"
+}
+
+password_login = {
+    "username": "EZRogha",
+    "password": ""
+}
+
+username_invalid_signup = {
+    "username": "778#hjk",
     "password": "22222",
     "email": "rt@gmail.com",
     "phone": "07687888",
@@ -47,5 +66,51 @@ address_signup = {
     "email": "rt@gmail.com",
     "phone": "07687888",
     "address": "",
+    "role": "admin"
+}
+
+address_invalid_signup = {
+    "username": "Timbiti",
+    "password": "22222",
+    "email": "rt@gmail.com",
+    "phone": "07687888",
+    "address": "#223jksdjj",
+    "role": "admin"
+}
+
+email_signup = {
+    "username": "Timbiti",
+    "password": "22222",
+    "email": "",
+    "phone": "07687888",
+    "address": "Ntinda",
+    "role": "admin"
+}
+
+
+email_invalid_signup = {
+    "username": "Timbiti",
+    "password": "22222",
+    "email": "rt@gmail",
+    "phone": "07687888",
+    "address": "Ntinda",
+    "role": "admin"
+}
+
+phone_signup = {
+    "username": "Timbiti",
+    "password": "22222",
+    "email": "rt@gmail.com",
+    "phone": "",
+    "address": "Ntinda",
+    "role": "admin"
+}
+
+phone_invalid_signup = {
+    "username": "Timbiti",
+    "password": "22222",
+    "email": "rt@gmail.com",
+    "phone": "rtyu6534",
+    "address": "Ntinda",
     "role": "admin"
 }
