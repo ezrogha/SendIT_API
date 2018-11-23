@@ -158,7 +158,7 @@ python run.py
 ```
 
 ## Deployment
-- [Heroku]
+- [Heroku](https://sendit-challenge3.herokuapp.com/api/v2/)
 
 ## Technologies
 - [Python](https://www.python.org/)
