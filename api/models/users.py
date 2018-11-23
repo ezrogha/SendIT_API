@@ -5,7 +5,7 @@ DBConn = DBConnection()
 def setUser(username, email, phone, address, password, role):
     result = DBConn.add_user(username, email, phone, address, password, role)
     if result == "Already exists":
-        return {"message": "username already exists"}
+        return {"message": "username or email already used"}
     return {"message": "Account has been created"}
 
 
