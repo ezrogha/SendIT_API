@@ -8,8 +8,8 @@ def viewAllParcels():
     return result
 
 
-def setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location):
-    DBConn.add_parcel(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location)
+def setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date):
+    DBConn.add_parcel(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date)
     return {"message": "Parcel has been created"}
 
 
