@@ -12,7 +12,7 @@ class DBConnection(object):
 
             print('Database connected.')
             create_user_table = "CREATE TABLE IF NOT EXISTS users (userId SERIAL NOT NULL PRIMARY KEY, username TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, password TEXT NOT NULL, role TEXT NOT NULL);"
-            create_parcels_table = "CREATE TABLE IF NOT EXISTS parcels (parcelId SERIAL NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, p_from TEXT NOT NULL, p_to TEXT NOT NULL, weight INTEGER NOT NULL, price INTEGER NOT NULL, status TEXT NOT NULL, location TEXT NOT NULL);"
+            create_parcels_table = "CREATE TABLE IF NOT EXISTS parcels (parcelId SERIAL NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, source TEXT NOT NULL, destination TEXT NOT NULL, weight INTEGER NOT NULL, price INTEGER NOT NULL, status TEXT NOT NULL, current_location TEXT NOT NULL, creation_date TEXT NOT NULL);"
             
             self.cursor.execute(create_user_table)
             self.cursor.execute(create_parcels_table)
@@ -22,16 +22,24 @@ class DBConnection(object):
 
 
     def add_user(self, username, email, phone, address, password, role):
-        check_user = f"SELECT * FROM users WHERE username='{username}'"
+        """
+        Check if username or email already exist, 
+        if not add new user otherwise return error
+        """
+        check_user = f"SELECT * FROM users WHERE username='{username}' OR email='{email}'"
         self.cursor.execute(check_user)
         if self.cursor.rowcount > 0:
             return "Already exists"
+
         query = f"INSERT INTO users (username, email, phone, address, password, role) VALUES ('{username}', '{email}', '{phone}', '{address}', '{password}', '{role}')"
         self.cursor.execute(query)
         return "Account created"
     
 
     def all_users(self):
+        """
+        Return all users in the database
+        """
         query = "SELECT * FROM users"
         self.cursor.execute(query)
         users = self.cursor.fetchall()
@@ -39,6 +47,9 @@ class DBConnection(object):
 
     
     def login_user(self, username, password):
+        """
+        Check if user exists in database for login
+        """
         query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
         self.cursor.execute(query)
         if self.cursor.rowcount < 1:
@@ -47,8 +58,8 @@ class DBConnection(object):
         return user
 
     
-    def add_parcel(self, userId, p_from, to, weight, price, status, location):
-        query = f"INSERT INTO parcels (userId, p_from, p_to, weight, price, status, location) VALUES ({userId}, '{p_from}', '{to}', '{weight}', '{price}', '{status}', '{location}')"
+    def add_parcel(self, userId, source, to, weight, price, status, current_location, creation_date):
+        query = f"INSERT INTO parcels (userId, source, destination, weight, price, status, current_location, creation_date) VALUES ({userId}, '{source}', '{to}', '{weight}', '{price}', '{status}', '{current_location}', '{creation_date}')"
         self.cursor.execute(query)
 
     
@@ -139,11 +150,11 @@ class DBConnection(object):
         if self.cursor.rowcount > 0:
             return "Already Delivered"
         
-        change_dest_query = f"UPDATE parcels SET p_to='{destination}' WHERE parcelId={parcelId}"
+        change_dest_query = f"UPDATE parcels SET destination='{destination}' WHERE parcelId={parcelId}"
         self.cursor.execute(change_dest_query)
 
 
-    def change_location(self, parcelId, location):
+    def change_location(self, parcelId, current_location):
         check_parcel_id = f"SELECT * FROM parcels WHERE parcelId={parcelId}"
         self.cursor.execute(check_parcel_id)
         if not self.cursor.rowcount > 0:
@@ -154,7 +165,7 @@ class DBConnection(object):
         if self.cursor.rowcount > 0:
             return "Already Delivered"
         
-        change_loc_query = f"UPDATE parcels SET location='{location}' WHERE parcelId={parcelId}"
+        change_loc_query = f"UPDATE parcels SET current_location='{current_location}' WHERE parcelId={parcelId}"
         self.cursor.execute(change_loc_query)
 
 
