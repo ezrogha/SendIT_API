@@ -33,6 +33,30 @@ class TestUsers(unittest.TestCase):
             data=json.dumps(username_signup))
         return response
 
+    def post_login_username(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/login",
+            content_type="application/json",
+            data=json.dumps(username_login))
+        return response
+    
+    def post_login_password(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/login",
+            content_type="application/json",
+            data=json.dumps(password_login))
+        return response
+
+    def post_invalid_username(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(username_invalid_signup))
+        return response
+
     def post_password(self):
         tester = app.test_client()
         response = tester.post(
@@ -47,6 +71,47 @@ class TestUsers(unittest.TestCase):
             "/api/v2/signup",
             content_type="application/json",
             data=json.dumps(address_signup))
+        return response
+
+    def post_invalid_address(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(address_invalid_signup))
+        return response
+
+    def post_email(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(email_signup))
+        return response
+
+    def post_invalid_email(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(email_invalid_signup))
+        return response
+
+
+    def post_phone(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(phone_signup))
+        return response
+
+    def post_invalid_phone(self):
+        tester = app.test_client()
+        response = tester.post(
+            "/api/v2/signup",
+            content_type="application/json",
+            data=json.dumps(phone_invalid_signup))
         return response
 
 
@@ -124,8 +189,27 @@ class TestUsers(unittest.TestCase):
         self.assertTrue(b"Account has been created" in response_post.data)
 
 
-    def test_username_post(self):
+    def test_twice_signup(self):
+        tester = app.test_client()
+        self.register_user()
+        response_post = self.register_user()
+        self.assertTrue(response_post.status_code, 409)
+
+
+    def test_username_signup_post(self):
         response = self.post_username()
+        self.assertEqual(response.status_code, 400)
+    
+    def test_username_invalid_post(self):
+        response = self.post_invalid_username()
+        self.assertEqual(response.status_code, 400)
+
+    def test_username_login_post(self):
+        response = self.post_login_username()
+        self.assertEqual(response.status_code, 400)
+
+    def test_password_login_post(self):
+        response = self.post_login_password()
         self.assertEqual(response.status_code, 400)
 
     def test_password_post(self):
@@ -136,6 +220,33 @@ class TestUsers(unittest.TestCase):
         response = self.post_address()
         self.assertEqual(response.status_code, 400)
 
+    def test_address_invalid_post(self):
+        response = self.post_invalid_address()
+        self.assertEqual(response.status_code, 400)
+
+    def test_email_post(self):
+        response = self.post_email()
+        self.assertEqual(response.status_code, 400)
+
+    def test_email_invalid_post(self):
+        response = self.post_invalid_email()
+        self.assertEqual(response.status_code, 400)
+
+    def test_phone_post(self):
+        response = self.post_phone()
+        self.assertEqual(response.status_code, 400)
+
+    def test_phone_invalid_post(self):
+        response = self.post_invalid_phone()
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_index(self):
+        tester = app.test_client()
+        response_get = tester.get(
+            "/api/v2/",
+            content_type="application/json")
+        self.assertEqual(b"Welcome to SendIT", response_get.data)
 
     def test_login(self):
         """ Test GET and POST requests for valid login
