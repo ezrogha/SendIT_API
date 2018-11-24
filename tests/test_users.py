@@ -136,6 +136,21 @@ class TestUsers(unittest.TestCase):
         )
         return response
 
+    def unknown_user_to_fetch_parcels(self, token):
+        tester = app.test_client()
+        response = tester.get(
+            "/api/v2/users/8/parcels",
+            content_type="application/json",
+            headers = {'Authorization': token })
+        return response
+
+    def method_not_allow(self, token):
+        tester = app.test_client()
+        response = tester.put(
+            "/api/v2/users/8/parcels",
+            content_type="application/json",
+            headers = {'Authorization': token })
+        return response
 
     def get_token(self):
         tester = app.test_client()
@@ -281,29 +296,42 @@ class TestUsers(unittest.TestCase):
     def  test_userParcels(self):
         tester = app.test_client()
         self.register_user()
-
+        
         response = self.get_token()
         data = json.loads(response.data.decode())
         token = 'Bearer ' + data["access_token"]
+        response_unknown = self.unknown_user_to_fetch_parcels(token)
+        respose_not_allowed_method = self.method_not_allow(token)
         response_get = tester.get(
             "/api/v2/users/1/parcels",
             content_type="application/json",
             headers = {'Authorization': token })
         self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(response_unknown.status_code, 400)
+        self.assertEqual(respose_not_allowed_method.status_code, 405)
         
 
     def test_allUsers(self):
         tester = app.test_client()
         self.register_admin()
+        self.register_user()
 
         response = self.get_admin_token()
+        response_user = self.get_token()
         data = json.loads(response.data.decode())
+        data_user = json.loads(response_user.data.decode())
         token = 'Bearer ' + data["access_token"]
+        token_user = 'Bearer ' + data_user["access_token"]
         response_get = tester.get(
             "/api/v2/users",
             content_type="application/json",
             headers = {'Authorization': token })
+        response_get_user = tester.get(
+            "/api/v2/users",
+            content_type="application/json",
+            headers = {'Authorization': token_user })
         self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(response_get_user.status_code, 401)
         
 
     def test_allParcels(self):

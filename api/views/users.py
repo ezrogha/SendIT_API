@@ -89,12 +89,12 @@ def login():
     return jsonify({"message": "Please Login"}), 200
 
 
-@app.route("/api/v2/users/<int:userId>/parcels", methods=["GET"])
+@app.route("/api/v2/users/<int:userId>/parcels", methods=["GET", "PUT"])
 @jwt_required
 def userParcels(userId):
     if request.method == "GET":
         result = specificUserparcels(userId)
-        if result == {"message": "User doesnot exist"}:
+        if result == {"message":"User doesnot exist"}:
             return jsonify(result), 400
         return jsonify(result), 200
     return jsonify({"message": "Method Not Allowed"}), 405

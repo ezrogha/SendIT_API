@@ -37,6 +37,11 @@ username_login = {
     "password": "22222"
 }
 
+user_doesnt_exist = {
+    "username": "dfff",
+    "password": "ghjk8dsds"
+}
+
 password_login = {
     "username": "EZRogha",
     "password": ""
