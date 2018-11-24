@@ -5,6 +5,7 @@ SendIT_API is a courier service api that helps users create, view, cancel and se
 ### Badges
  [![Build Status](https://travis-ci.org/ezrogha/SendIT_API.svg?branch=ft-challenge-3)](https://travis-ci.org/ezrogha/SendIT_API)
  [![Coverage Status](https://coveralls.io/repos/github/ezrogha/SendIT_API/badge.svg?branch=ft-challenge-3)](https://coveralls.io/github/ezrogha/SendIT_API?branch=ft-challenge-3)
+ [![Maintainability](https://api.codeclimate.com/v1/badges/39caaa1fe94e4554a26c/maintainability)](https://codeclimate.com/github/ezrogha/SendIT_API/maintainability)
 
 ## Getting Started
 ```
@@ -159,7 +160,7 @@ python run.py
 ```
 
 ## Deployment
-- [Heroku]
+- [Heroku](https://sendit-challenge3.herokuapp.com/api/v2/)
 
 ## Technologies
 - [Python](https://www.python.org/)
