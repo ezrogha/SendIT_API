@@ -28,16 +28,18 @@ python run.py
 ```
 
 ### Endpoints and Functionality:
-| Endpoint                             | Functionality                    |
-| ---------                            |---------------                   |
-| GET /api/v1/parcels                  | Fetch all delivery orders        |
-| POST /api/v1/parcels                 | Create parcel delivery order     |
-| GET /api/v1/parcels/<parcelId>       | Fetch a specific delivery order  |
-| PUT /api/v1/parcels/<parcelId>/cancel| Cancel specific delivery order   |
-| POST /api/v1/users                   | Add user                         |
-| GET /api/v1/users                    | Fetch all users                  | 
-| GET /api/v1/users/<userId>/parcels   | Fetch orders from a specific user|
-| POST /api/v1/users/<userId>/parcels  | Create parcel delivery order     |
+| Endpoint                                  | Functionality                       |
+| ---------                                 |---------------                      |
+| GET /api/v1/parcels                       | Fetch all delivery orders           |
+| POST /api/v1/parcels                      | Create parcel delivery order        |
+| GET /api/v1/parcels/<parcelId>            | Fetch a specific delivery order     |
+| PUT /api/v1/parcels/<parcelId>/cancel     | Cancel specific delivery order      |
+| PUT /api/v1/parcels/<parcelId>/destination| Change destination of order         |
+| PUT /api/v1/parcels/<parcelId>/location   | Change current location of order    |
+| POST /api/v1/users                        | Add user                            |
+| GET /api/v1/users                         | Fetch all users                     | 
+| GET /api/v1/users/<userId>/parcels        | Fetch orders from a specific user   |
+| POST /api/v1/users/<userId>/parcels       | Create parcel delivery order        |
  
 ## Usage
 
