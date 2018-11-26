@@ -143,9 +143,9 @@ class DBConnection(object):
         check_parcel_id = f"SELECT * FROM parcels WHERE parcelId={parcelId} AND userid={userId}"
         self.cursor.execute(check_parcel_id)
         if not self.cursor.rowcount > 0:
-            return "Wrong parcelId"
+            return "Parcel doesn't exist"
 
-        check_dest_status = f"SELECT * FROM parcels WHERE parcelId={parcelId} and status='Delivered'"
+        check_dest_status = f"SELECT * FROM parcels WHERE parcelId={parcelId} AND status='Delivered'"
         self.cursor.execute(check_dest_status)
         if self.cursor.rowcount > 0:
             return "Already Delivered"

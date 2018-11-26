@@ -40,7 +40,7 @@ def sendParcelOrder(parcelId, userId):
 
 def changeParcelDestination(parcelId, userId, destination):
     result = DBConn.change_destination(parcelId, userId, destination)
-    if result == "Wrong parcelId":
+    if result == "parcel doesn't exist":
         return {"message": "OrderId does not exist"}
     elif result == "Already Delivered":
         return {"message": "Destination cannot be changed because the parcel has already been delivered"}
