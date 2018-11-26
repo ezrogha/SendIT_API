@@ -10,9 +10,10 @@ from flask_jwt_extended import (
 )
 import datetime
 from validate_email import validate_email
-import datetime
 
 app.config["JWT_SECRET_KEY"] = "sweetlordJesus"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
+
 jwt = JWTManager(app)
 
 
@@ -22,7 +23,7 @@ def index():
 
 @app.route("/api/v2/")
 def home():
-    return "Welcome to SendIT"
+    return jsonify({"message": "Welcome To SendIT"}), 200
 
 @app.route("/api/v2/signup", methods=["GET", "POST"])
 def signup():
@@ -57,8 +58,6 @@ def signup():
                 return validateString(address)
 
         role = content.get("role")
-        if not role:
-            role = "user"
 
         response = setUser(username, email, phone, address, password, role)
         if response == {"message": "username or email already used"}:
@@ -117,10 +116,9 @@ def allParcels():
     if request.method == "POST":
         content = request.json
 
-        parcel_userId = content.get("userId")
-        if not parcel_userId:
-            return jsonify({"message": "UserId not defined"}), 400
-
+        current_user = get_jwt_identity()
+        parcel_userId = current_user["userid"]
+        
         parcel_from = content.get("source")
         if not parcel_from:
             return jsonify({"message": "Please add a source"}), 400
@@ -150,11 +148,13 @@ def allParcels():
 
         return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date)), 201
 
-    current_user = get_jwt_identity()
-    if current_user["role"] == "admin":
-        if request.method == "GET":
-            return jsonify(viewAllParcels()), 200
-    return jsonify({"message": "Please login as admin to access data"}), 401
+    elif request.method == "GET":
+        current_user = get_jwt_identity()
+        if current_user["role"] == "admin":
+            if request.method == "GET":
+                return jsonify(viewAllParcels()), 200
+        return jsonify({"message": "Please login as admin to access data"}), 401
+
 
 @app.route("/api/v2/parcels/<int:parcelId>")
 @jwt_required
@@ -196,6 +196,7 @@ def sendParcel(parcelId):
 @app.route('/api/v2/parcels/<int:parcelId>/destination', methods=["PUT"])
 @jwt_required
 def changeDestination(parcelId):
+    current_User = get_jwt_identity()
     if request.method == "PUT":
         current_User = get_jwt_identity()
         userId = current_User["userid"]
@@ -205,6 +206,8 @@ def changeDestination(parcelId):
             return jsonify(response), 404
         return jsonify(response), 200
     return jsonify({"message": "Method Not Allowed"}), 405
+    
+
 
 
 @app.route('/api/v2/parcels/<int:parcelId>/location', methods=["PUT"])
