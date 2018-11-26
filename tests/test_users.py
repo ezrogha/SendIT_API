@@ -261,7 +261,7 @@ class TestUsers(unittest.TestCase):
         response_get = tester.get(
             "/api/v2/",
             content_type="application/json")
-        self.assertEqual(b"Welcome to SendIT", response_get.data)
+        self.assertEqual(b'{"message":"Welcome To SendIT"}\n', response_get.data)
 
     def test_login(self):
         """ Test GET and POST requests for valid login
