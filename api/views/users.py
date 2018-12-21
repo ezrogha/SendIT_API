@@ -1,8 +1,11 @@
 from flask import request, jsonify, redirect, url_for
 from run import app
-from api.models.users import *
-from api.models.parcels import *
+from api.models.users import User
+from api.models.parcels import Parcel
 import re
+
+User = User()
+Parcel = Parcel()
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -59,7 +62,7 @@ def signup():
 
         role = content.get("role")
 
-        response = setUser(username, email, phone, address, password, role)
+        response = User.setUser(username, email, phone, address, password, role)
         if response == {"message": "username or email already used"}:
             return jsonify(response), 409
         return jsonify(response), 201
@@ -71,15 +74,15 @@ def login():
     
     if request.method == "POST":
         content = request.json
-        username = content.get("username").strip()
+        username = content.get("username")
         if not username:
             return jsonify({"message": "Please provide a username"}), 400
 
-        password = content.get("password").strip()
+        password = content.get("password")
         if not password:
             return jsonify({"message": "Please provide a password"}), 400
 
-        result = loginUser(username, password)
+        result = User.loginUser(username, password)
         if result == {"message": "User doesnot exist"}:
             return jsonify(result), 400
         access_token = create_access_token(identity=result)
@@ -92,7 +95,7 @@ def login():
 @jwt_required
 def userParcels(userId):
     if request.method == "GET":
-        result = specificUserparcels(userId)
+        result = User.specificUserparcels(userId)
         if result == {"message":"User doesnot exist"}:
             return jsonify(result), 400
         return jsonify(result), 200
@@ -105,7 +108,7 @@ def allUsers():
     current_user = get_jwt_identity()
     if current_user["role"] == "admin":
         if request.method == "GET":
-            return jsonify(fetchAllUsers()), 200
+            return jsonify(User.fetchAllUsers()), 200
         return jsonify({"message": "Method Not Allowed"}), 405
     return jsonify({"message": "Please login as admin to access data"}), 401
 
@@ -146,13 +149,13 @@ def allParcels():
         now = datetime.datetime.now()
         parcel_creation_date = str(now.strftime("%Y-%m-%d %H:%M"))
 
-        return jsonify(setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date)), 201
+        return jsonify(Parcel.setParcels(parcel_userId, parcel_from, parcel_to, parcel_weight, parcel_price, parcel_status, parcel_location, parcel_creation_date)), 201
 
     elif request.method == "GET":
         current_user = get_jwt_identity()
         if current_user["role"] == "admin":
             if request.method == "GET":
-                return jsonify(viewAllParcels()), 200
+                return jsonify(Parcel.viewAllParcels()), 200
         return jsonify({"message": "Please login as admin to access data"}), 401
 
 
@@ -161,7 +164,7 @@ def allParcels():
 def parcel(parcelId):
     current_user = get_jwt_identity()
     userId = current_user["userid"]
-    result = parcelDetails(parcelId, userId)
+    result = Parcel.parcelDetails(parcelId, userId)
     if result == {"message": "OrderId doesnot exist"}:
         return jsonify(result), 400
     return jsonify(result), 200
@@ -173,7 +176,7 @@ def cancelParcel(parcelId):
     current_user = get_jwt_identity()
     userId = current_user["userid"]
     if request.method == "PUT":
-        result = cancelParcelOrder(parcelId, userId)
+        result = Parcel.cancelParcelOrder(parcelId, userId)
         if result == {"message": "OrderId does not exist"}:
             return jsonify(result), 404
         return jsonify(result), 200
@@ -186,7 +189,7 @@ def sendParcel(parcelId):
     current_user = get_jwt_identity()
     userId = current_user["userid"]
     if request.method == "PUT":
-        result = sendParcelOrder(parcelId, userId)
+        result = Parcel.sendParcelOrder(parcelId, userId)
         if result == {"message": "OrderId does not exist"}:
             return jsonify(result), 404
         return jsonify(result), 200
@@ -201,7 +204,7 @@ def changeDestination(parcelId):
         current_User = get_jwt_identity()
         userId = current_User["userid"]
         destination = request.json.get("destination")
-        response = changeParcelDestination(parcelId, userId, destination)
+        response = Parcel.changeParcelDestination(parcelId, userId, destination)
         if response == {"message": "OrderId does not exist"}:
             return jsonify(response), 404
         return jsonify(response), 200
@@ -217,7 +220,7 @@ def changeLocation(parcelId):
     if current_user["role"] == "admin":
         if request.method == "PUT":
             location = request.json.get("current_location")
-            return jsonify(changeParcelLocation(parcelId, location)), 200
+            return jsonify(Parcel.changeParcelLocation(parcelId, location)), 200
         return jsonify({"message": "Method Not Allowed"}), 405
     return jsonify({"message": "Please login as admin to make alteration"}), 401    
 
@@ -229,7 +232,7 @@ def changeStatus(parcelId):
     if current_user["role"] == "admin":
         if request.method == "PUT":
             status = request.json.get("status")
-            return jsonify(changeParcelStatus(parcelId, status)), 200
+            return jsonify(Parcel.changeParcelStatus(parcelId, status)), 200
         return jsonify({"message": "Method Not Allowed"}), 405
     return jsonify({"message": "Please login as admin to access data"}), 401    
 
