@@ -2,9 +2,11 @@ import unittest
 import json
 from run import app
 from api.models.database import DBConnection
-from api.models.users import deleteTables
+from api.models.users import User
 from flask_jwt_extended import get_jwt_identity 
 from tests.data import *
+
+User = User()
 
 class TestUsers(unittest.TestCase):
 
@@ -14,7 +16,7 @@ class TestUsers(unittest.TestCase):
 
     def tearDown(self):
         # To run after each function in the test class
-        deleteTables()
+        User.deleteTables()
 
 
     def register_user(self):
